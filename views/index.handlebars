@@ -1,7 +1,20 @@
-<ul>
-{{#each data.titles}}
-  <li>
-    {{this}}
-  </li>
-{{/each}}
-</ul>
+<div class="container">
+  <section class="row">
+  <ul class="list-unstyled pt-2">
+    
+  {{#each data}}
+    <li class="bgDark text-light p-2">
+      <a href="https://stackoverflow.com{{link}}">{{text}}</a>
+      <span class="small text-dark">{{age}}</span>
+      <p class="small text-dark">{{company}}</p>
+      <p class="small text-dark">{{pay}}</p>
+      <ul class="list-unstyled">
+        {{#each tags}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </li>
+  {{/each}}
+  </ul>
+  </section>
+</div>

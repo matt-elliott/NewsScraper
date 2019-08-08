@@ -5,8 +5,10 @@ const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const databaseURL = 'jobs';
 const collection = 'posts';
+const logger = require('morgan');
 
 function Router(app) {
+  // app.use(logger("dev"));
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   app.use(express.static('public'));
@@ -17,14 +19,43 @@ function Router(app) {
     console.log('homepage')
     try {
       let scrappedData = await axios.get("https://stackoverflow.com/jobs");
-      let $ = await cheerio.load(scrappedData.data);
-      let results = {};
-      results.titles = [];
-      let titles = $('h2').text().split('\n');
-      titles.forEach(function(item) {
-        results.titles.push(item.trim());
-      });
-      console.log(results.titles);
+      scrappedData.data.replace(/[\n][\s]/g, '');
+      let $ = cheerio.load(scrappedData.data);
+      let results = [];
+      let jobs = $('.-job .-title');
+
+      for(let i = 0; i < jobs.length; i++) {
+        let job = $(jobs[i]);
+        results.push({
+          text: job
+            .children('h2')
+            .text()
+            .trim(),
+          link: job
+            .find('a')
+            .attr('href'),
+          age: job
+            .children('span')
+            .text()
+            .trim(),
+          company: job
+            .parent('.-job-summary')
+            .children('.-company')
+            .text()
+            .trim(),
+          pay: job
+            .parent('.-job-summary')
+            .children('.-salary')
+            .text()
+            .trim(),
+          tags: job
+            .parent('.-job-summary')
+            .children('.-tags')
+            .children('a')
+            .text(),
+        });
+      }
+      console.log(results);
       res.render('index', {data: results});
     } catch (error) {
       console.log("error! ", error);
