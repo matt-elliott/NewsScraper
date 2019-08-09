@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
   title: String,
   link: String,
-  age: Number,
+  age: String,
   company: String,
   pay: String,
   tags: String,
