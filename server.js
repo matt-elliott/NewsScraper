@@ -4,7 +4,7 @@ const config = require('./config/config.json');
 const environemnt = process.env.NODE_ENV || 'development';
 const environemntConfig = config[environemnt];
 __rooutpath = __dirname;
-
+const db = require('./models');
 require('./routes/views')(app, __rooutpath);
 
 app.listen(environemntConfig.PORT, function () {
