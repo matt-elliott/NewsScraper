@@ -20,7 +20,11 @@ ul li {
   box-sizing: border-box;
   box-shadow: 0 5px 15px 2px rgba(0,0,0,0.2);
 }
-ul li a {
+ul li:hover {
+  box-shadow: 0 5px 15px 2px rgba(0,0,0,0.5);
+  transition: all 1s ease;
+}
+ul li a, ul li a:active, ul li a:link, ul li a:visited {
   display: block;
   background-color: #333;
   color: var(--warning);
@@ -32,4 +36,11 @@ ul li a {
   border-top: 1px solid #333;
   border-left: 1px solid #333;
   border-right: 1px solid #333;
+}
+ul li a:hover {
+  color: var(--warning);
+  font-size: 2rem;
+  text-decoration: none;
+  text-shadow: 2px 2px 0 red, 6px 6px 0 orangered; 
+  transition: all 1s ease-in-out;
 }
