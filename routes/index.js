@@ -9,6 +9,7 @@ const collection = 'posts';
 const logger = require('morgan');
 
 function Router(app, __rootpath, db) {
+  mongoose.set('useFindAndModify', false);
   app.use( '/assets', express.static(
     path.resolve(
       __rootpath + '/public'
@@ -21,10 +22,18 @@ function Router(app, __rootpath, db) {
   app.set('view engine', 'handlebars');
 
   app.get('/', async function(req, res) {
-    console.log('homepage')
+    try {
+      let posts = await db.Posts.find().populate('Comments');
+      res.render('index', {data: posts});
+    } catch (error) {
+      console.log("error! ", error);
+    }
+  });
+
+  app.get('/scrape', async function(req, res) {
     try {
       let scrappedData = await axios.get("https://stackoverflow.com/jobs?c=usd&ms=Junior&mxs=MidLevel&dr=FrontendDeveloper&j=permanent&j=contract");
-      
+        
       scrappedData.data.replace(/[\n][\s]/g, '');
       let $ = cheerio.load(scrappedData.data);
       let results = [];
@@ -32,11 +41,7 @@ function Router(app, __rootpath, db) {
 
       for(let i = 0; i < jobs.length; i++) {
         let job = $(jobs[i]);
-        // console.log(
-        //   job.parent('.-job-summary').children('.-company')
-        //   .text().replace(/\n/g, '').trim()
-        // );
-        // break;
+
         results.push({
           title: job
             .children('h2')
@@ -69,29 +74,30 @@ function Router(app, __rootpath, db) {
         });
       }
 
-      let postResponse = await db.Posts.create(results);  
-      let posts = await db.Posts.find();
-      console.log(posts);
-      res.render('index', {data: posts});
-    } catch (error) {
-      console.log("error! ", error);
+      let postResponse = await db.Posts.create(results);
+      res.json(postResponse);
+    } catch(error) {
+      console.log(error);
     }
   });
 
   app.post('/post', async function(req, res) {
     try {
       let response = await db.Post.create(req.body);  
-      console.log(response);
     } catch (error) {
       console.log('post create error : ', error);
     }
   });
 
-  app.post('/comment', async function(req, res) {
+  app.post('/comment/:id', async function({params, body}, res) {
     try {
-      let result = await db.Comment.create(req.body);
-      console.log(result);
-      res.json(result);  
+      let comment = await db.Comments.create(body);
+      let post = await db.Posts.findOneAndUpdate(
+        { _id: params.id },
+        { comments: comment.comment },
+        { new: true}
+      );
+      res.sendStatus(200);
     } catch (error) {
       console.log('comment create error :', error);
     }
