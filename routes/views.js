@@ -18,7 +18,7 @@ function Router(app) {
   app.get('/', async function(req, res) {
     console.log('homepage')
     try {
-      let scrappedData = await axios.get("https://stackoverflow.com/jobs");
+      let scrappedData = await axios.get("https://stackoverflow.com/jobs?c=usd&ms=Junior&mxs=MidLevel&dr=FrontendDeveloper&j=permanent&j=contract");
       scrappedData.data.replace(/[\n][\s]/g, '');
       let $ = cheerio.load(scrappedData.data);
       let results = [];
