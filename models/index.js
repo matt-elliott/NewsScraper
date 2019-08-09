@@ -4,12 +4,15 @@ const Comments = require('./comments');
 const Posts = require('./posts');
 
 module.exports = async function() {
-  const mongo = await mongoose.connect(MONGOB_URI);
+  const conn = await mongoose.connect(
+    MONGOB_URI, { useNewUrlParser: true }
+  );
+
   let db = {
-    mongo: mongo,
-    posts: Posts,
-    comments: Comments
+    "conn": conn,
+    "posts": Posts,
+    "comments": Comments
   }
-  console.log(db);
+
   return db;
 }
