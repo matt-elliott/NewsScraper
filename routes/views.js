@@ -3,15 +3,22 @@ const renderer = require('express-handlebars');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const cheerio = require('cheerio');
+const path = require('path');
 const databaseURL = 'jobs';
 const collection = 'posts';
 const logger = require('morgan');
 
-function Router(app) {
+function Router(app, __rootpath) {
+
   // app.use(logger("dev"));
+  app.use( '/assets', express.static(
+    path.resolve(
+      __rootpath + '/public'
+    )
+  ));
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  app.use(express.static('public'));
+
   app.engine('handlebars', renderer());
   app.set('view engine', 'handlebars');
 
@@ -55,7 +62,6 @@ function Router(app) {
             .text(),
         });
       }
-      console.log(results);
       res.render('index', {data: results});
     } catch (error) {
       console.log("error! ", error);
