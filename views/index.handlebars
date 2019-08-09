@@ -1,13 +1,13 @@
 <section class="container">
+  {{#if data}}
   <ul class="list-unstyled pt-2 row">
     {{#each data}}
     <li class="bgDark p-2 col-12" id="post_{{_id}}">
       <header class="row">
         <a href="https://stackoverflow.com{{link}}" class="col-xs-12 col-md-6 col-lg-6">{{title}}</a>
-        <button class="btn btn-primary col-xs-12 col-md-6 col-lg-6">Add A Comment</button>
       </header>
       <div class="row">
-        <div class="col-12">
+        <div class="col-xs-12 col-md-6">
           <span class="text-dark">{{age}}</span>
           <p class="text-dark">{{company}}</p>
           <p class="text-dark">{{pay}}</p>
@@ -16,17 +16,31 @@
             <li>{{this}}</li>
             {{/each}}
           </ul>
+
+        </div>
+        <div class="col-xs-12 col-md-6 comment">
+          <h4>Comment</h4>
+          {{comments}}
         </div>
       </div>
-      <div class="hide commentBox row">
+      <div class="commentBox row">
         <div class="col-12">
           <form>
             <textarea name="comment" cols="30" rows="10"></textarea>
+            <input type="hidden" name="id" value="{{_id}}"/>
+            <button type="submit" value="submit" class="btn btn-primary">Submit</button>
           </form>
-          <button type="submit" value="submit" class="btn btn-primary" data-postid="{{_id}}">Submit</button>
         </div>
       </div>
     </li>
     {{/each}}
   </ul>
+  {{else}}
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center">No jobs found!</h1>
+      <p class="text-center">Better get <a href="/scrape/">scraping</a></p>
+    </div>
+  </div>
+  {{/if}}
 </section>
