@@ -1,20 +1,17 @@
-<div class="container">
-  <section class="row">
-  <ul class="list-unstyled pt-2">
-    
-  {{#each data}}
-    <li class="bgDark text-light p-2">
+<section class="container">
+  <ul class="list-unstyled pt-2 row">
+    {{#each data}}
+    <li class="bgDark p-2 col-12">
       <a href="https://stackoverflow.com{{link}}">{{text}}</a>
-      <span class="small text-dark">{{age}}</span>
-      <p class="small text-dark">{{company}}</p>
-      <p class="small text-dark">{{pay}}</p>
+      <span class="text-dark">{{age}}</span>
+      <p class="text-dark">{{company}}</p>
+      <p class="text-dark">{{pay}}</p>
       <ul class="list-unstyled">
         {{#each tags}}
         <li>{{this}}</li>
         {{/each}}
       </ul>
     </li>
-  {{/each}}
+    {{/each}}
   </ul>
-  </section>
-</div>
+</section>
