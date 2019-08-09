@@ -3,8 +3,10 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const CommentShema = new Schema({
-  comment: String,
-  required: true
+  comment: {
+    type: String,
+    required: true
+  }
 });
 
 const Comment = mongoose.model('Comment', CommentShema);
