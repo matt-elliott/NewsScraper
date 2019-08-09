@@ -3,16 +3,15 @@ const MONGOB_URI = process.env.MONGOB_URI || "mongodb://heroku_ntkw4z8j:8md6qta1
 const Comments = require('./comments');
 const Posts = require('./posts');
 
-module.exports = async function() {
-  const conn = await mongoose.connect(
-    MONGOB_URI, { useNewUrlParser: true }
-  );
+module.exports = function() {
+    const conn = mongoose.connect(
+      MONGOB_URI, { useNewUrlParser: true }
+    );
 
-  let db = {
-    "conn": conn,
-    "posts": Posts,
-    "comments": Comments
-  }
+    let db = {};
+    db.conn = conn;
+    db.Comments = Comments;
+    db.Posts = Posts;
 
-  return db;
+    return db;
 }
