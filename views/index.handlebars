@@ -2,7 +2,10 @@
   <ul class="list-unstyled pt-2 row">
     {{#each data}}
     <li class="bgDark p-2 col-12">
-      <a href="https://stackoverflow.com{{link}}">{{text}}</a>
+      <header class="row">
+        <a href="https://stackoverflow.com{{link}}" class="col-xs-12 col-md-6 col-lg-6">{{text}}</a>
+        <button class="btn btn-primary col-xs-12 col-md-6 col-lg-6">Add A Comment</button>
+      </header>
       <span class="text-dark">{{age}}</span>
       <p class="text-dark">{{company}}</p>
       <p class="text-dark">{{pay}}</p>
