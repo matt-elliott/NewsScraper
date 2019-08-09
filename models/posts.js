@@ -9,8 +9,8 @@ const PostSchema = new Schema({
   pay: String,
   tags: String,
   comments: {
-    type: Schema.Types.ObjectId,
-    ref: "Comment"
+    type: String,
+    ref: "Comments"
   }
 });
 
