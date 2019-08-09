@@ -6,14 +6,26 @@
         <a href="https://stackoverflow.com{{link}}" class="col-xs-12 col-md-6 col-lg-6">{{text}}</a>
         <button class="btn btn-primary col-xs-12 col-md-6 col-lg-6">Add A Comment</button>
       </header>
-      <span class="text-dark">{{age}}</span>
-      <p class="text-dark">{{company}}</p>
-      <p class="text-dark">{{pay}}</p>
-      <ul class="list-unstyled">
-        {{#each tags}}
-        <li>{{this}}</li>
-        {{/each}}
-      </ul>
+      <div class="row">
+        <div class="col-12">
+          <span class="text-dark">{{age}}</span>
+          <p class="text-dark">{{company}}</p>
+          <p class="text-dark">{{pay}}</p>
+          <ul class="list-unstyled">
+            {{#each tags}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+      <div class="hide commentBox row">
+        <div class="col-12">
+          <form>
+            <textarea name="comment" cols="30" rows="10"></textarea>
+          </form>
+          <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
     </li>
     {{/each}}
   </ul>
